@@ -1,4 +1,5 @@
 using GraphQlDemo.EmployeeHelpers;
+using GraphQlDemo.Enums;
 using GraphQlDemo.Exceptions;
 using GraphQlDemo.Models;
 using GraphQlDemo.Services;
@@ -15,7 +16,7 @@ public class Mutation
         _databaseService = databaseService;
     }
 
-    public Employee CreateEmployee(string taxFileNumber, string firstName, string lastName, DateTime dateOfBirth,
+    public async Task<Employee> CreateEmployee(string taxFileNumber, string firstName, string lastName, DateTime dateOfBirth,
         DateTime hireDate)
     {
         if (string.IsNullOrEmpty(taxFileNumber) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
@@ -29,7 +30,11 @@ public class Mutation
 
         try
         {
-            _databaseService.InsertOne(newEmployee);
+            var result = await _databaseService.InsertOne(newEmployee);
+            if (result == ReturnResult.Successful)
+            {
+                Console.WriteLine($"Document {newEmployee.EmployeeNumber} inserted successfully");
+            }
         }
         catch (Exception ex)
         {
@@ -40,7 +45,7 @@ public class Mutation
         return newEmployee;
     }
 
-    public Employee UpdateEmployeeByEmployeeNumber(string employeeNumber, Input.EmployeeUpdate update)
+    public async Task<Employee> UpdateEmployeeByEmployeeNumber(string employeeNumber, Input.EmployeeUpdate update)
     {
         if (string.IsNullOrEmpty(employeeNumber) || update == null)
         {
@@ -127,7 +132,7 @@ public class Mutation
         
         try
         {
-            var updatedEmployee = _databaseService.FindAndUpdateByFilter(filter, combinedUpdateDefinition, options);
+            var updatedEmployee = await _databaseService.FindAndUpdateByFilter(filter, combinedUpdateDefinition, options);
 
             if (updatedEmployee == null)
             {
@@ -143,9 +148,9 @@ public class Mutation
         }
     }
     
-    public bool DeleteEmployeeByEmployeeNumber(string employeeNumber)
+    public async Task<bool> DeleteEmployeeByEmployeeNumber(string employeeNumber)
     {
         var filter = Builders<Employee>.Filter.Eq(e => e.EmployeeNumber, employeeNumber);
-        return _databaseService.DeleteByFilter(filter);
+        return await _databaseService.DeleteByFilter(filter);
     }
 }

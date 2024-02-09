@@ -1,4 +1,6 @@
+using GraphQlDemo.Enums;
 using GraphQlDemo.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
 namespace GraphQlDemo.Services;
@@ -12,27 +14,32 @@ public class DatabaseService<T>
         _collection = database.GetCollection<T>(collectionName);
     }
 
-    public void InsertOne(T document)
+    public async Task<ReturnResult> InsertOne(T document)
     {
         try
         {
-            _collection.InsertOne(document);
+            await _collection.InsertOneAsync(document);
+            return ReturnResult.Successful;
+        }
+        catch (MongoWriteException writeEx)
+        {
+            Console.WriteLine($"MongoDB write error: {writeEx.WriteError}");
+            return ReturnResult.Failed;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error inserting document: {ex.Message}");
-            throw;
+            return ReturnResult.Failed;
         }
     }
     
-    public List<T> GetAll(string sortByProperty = "_id", bool ascending = true)
+    public async Task<List<T>> GetAll(string sortByProperty = "_id", bool ascending = true)
     {
         try
         {
-            var sortDirection = ascending ? SortDirection.Ascending : SortDirection.Descending;
-            var sortDefinition = Builders<T>.Sort.Ascending(sortByProperty);
+            var sortDefinition = ascending ? Builders<T>.Sort.Ascending(sortByProperty) : Builders<T>.Sort.Descending(sortByProperty);
 
-            return _collection.Find(_ => true).Sort(sortDefinition).ToList();
+            return await _collection.Find(_ => true).Sort(sortDefinition).ToListAsync();
         }
         catch (Exception ex)
         {
@@ -41,47 +48,30 @@ public class DatabaseService<T>
         }
     }
 
-    public T GetByFilter(FilterDefinition<T> filter)
+    public async Task<T> GetByFilter(FilterDefinition<T> filter)
     {
         try
         {
-            var result = _collection.Find(filter).SingleOrDefault();
-            return result;
+            return await _collection.Find(filter).SingleOrDefaultAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error getting document: {ex.GetType().Name} - {ex.Message}");
+            Console.WriteLine($"Error getting document: {ex.Message}");
             throw;
         }
     }
 
-    public T FindAndUpdateByFilter(FilterDefinition<T> filter, UpdateDefinition<T> update, FindOneAndUpdateOptions<T> options)
+    public async Task<T> FindAndUpdateByFilter(FilterDefinition<T> filter, UpdateDefinition<T> update, FindOneAndUpdateOptions<T> options)
     {
         try
         {
-            if (_collection == null)
-            {
-                Console.WriteLine("Collection is null");
-                throw new InvalidOperationException("Collection is null");
-            }
-            
-            
             if (filter == null || update == null || options == null)
             {
                 Console.WriteLine("Filter, update, or options is null");
                 throw new InvalidOperationException("Filter, update, or options is null");
             }
-            
-            var result = _collection.FindOneAndUpdate(filter, update, options);
-            if (result != null)
-            {
-                return result;
-            }
-            else
-            {
-                Console.WriteLine("Document not found");
-                throw new NotFoundException("Document not found");
-            }
+
+            return await _collection.FindOneAndUpdateAsync(filter, update, options);
         }
         catch (Exception ex)
         {
@@ -90,11 +80,11 @@ public class DatabaseService<T>
         }
     }
 
-    public bool DeleteByFilter(FilterDefinition<T> filter)
+    public async Task<bool> DeleteByFilter(FilterDefinition<T> filter)
     {
         try
         {
-            var result = _collection.DeleteOne(filter);
+            var result = await _collection.DeleteOneAsync(filter);
             return result.IsAcknowledged && result.DeletedCount > 0;
         }
         catch (Exception ex)

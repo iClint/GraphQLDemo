@@ -21,10 +21,9 @@ namespace GraphQlDemo.EmployeeHelpers
             return employeeNumber;
         }
 
-        // Modified: Removed 'static' keyword as we are using instance fields
-        private int NextEmployeeIndex()
+        private async Task<int> NextEmployeeIndex()
         {
-            var employees = _databaseService.GetAll("_id", true);
+            var employees = await _databaseService.GetAll("_id", true);
 
             if (employees.Count == 0) return 1;
             var lastEmployee = employees.Last();
