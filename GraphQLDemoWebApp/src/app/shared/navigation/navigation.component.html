@@ -1,0 +1,14 @@
+<div class="navigation-bar">
+  <ul>
+    <a
+      *ngFor="let page of navPages"
+      [routerLink]="page.route"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      <li>
+        {{ page.label }}
+      </li>
+    </a>
+  </ul>
+</div>

@@ -1,0 +1,25 @@
+footer {
+  background-color: rgb(61, 61, 61);
+}
+
+.page-body {
+  background-color: rgb(61, 61, 61);
+  min-height: 100vh;
+}
+
+.content {
+  margin: auto;
+  max-width: 1400px;
+  background: white;
+}
+
+header {
+  background-color: rgb(61, 61, 61);
+  padding-top: 24px;
+  overflow: hidden;
+}
+
+body {
+  padding: 8px;
+  min-height: 75vh;
+}

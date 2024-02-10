@@ -1,0 +1,38 @@
+.navigation-bar {
+  background-color: rgb(93, 93, 209);
+  color: white;
+  box-shadow: inset 0px 2px 3px black;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: center;
+}
+
+li {
+  display: inline-flex;
+  min-width: 200px;
+  justify-content: center;
+}
+
+a > li {
+  padding: 8px;
+  text-decoration: none;
+  color: aliceblue;
+}
+
+a:hover,
+a:hover li {
+  background-color: rgb(203, 203, 203);
+  color: black;
+}
+
+.active,
+.active li {
+  /* Your active route styles here */
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-weight: bold;
+}

@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let employee of employees" (click)="employeeProfile(employee.employeeNumber)">
+    {{ employee.employeeNumber }} - {{ employee.firstName }}
+    {{ employee.lastName }}
+  </li>
+</ul>

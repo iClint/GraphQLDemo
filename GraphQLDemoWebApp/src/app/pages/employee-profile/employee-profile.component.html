@@ -1,0 +1,63 @@
+<a class="back-link" href="/employee">Back</a>
+<h1>Employee Profile</h1>
+<div *ngIf="employee">
+  <table>
+    <tr>
+      <td class="row-heading">ID:</td>
+      <td class="value">{{ employee.employeeNumber }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">First Name:</td>
+      <td class="value">{{ employee.firstName }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">Last Name:</td>
+      <td class="value">{{ employee.lastName }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">DOB:</td>
+      <td class="value">{{ employee.dateOfBirth }}</td>
+      <td class="row-heading">Age:</td>
+      <td class="value">{{ employee.age }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">Gender:</td>
+      <td class="value">{{ employee.gender }}</td>
+    </tr>
+    <tr>
+      <td class="block-heading">Residential Address</td>
+      <td></td>
+      <td class="block-heading">Residential Address</td>
+    </tr>
+    <tr>
+      <td class="row-heading">Line 1:</td>
+      <td class="value">{{ employee.residentialAddress.line1 }}</td>
+      <td class="row-heading">Line 1:</td>
+      <td class="value">{{ employee.postalAddress.line1 }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">Line 2:</td>
+      <td class="value">{{ employee.residentialAddress.line2 }}</td>
+      <td class="row-heading">Line 2:</td>
+      <td class="value">{{ employee.postalAddress.line2 }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">City:</td>
+      <td class="value">{{ employee.residentialAddress.city }}</td>
+      <td class="row-heading">City:</td>
+      <td class="value">{{ employee.postalAddress.city }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">State:</td>
+      <td class="value">{{ employee.residentialAddress.state }}</td>
+      <td class="row-heading">State:</td>
+      <td class="value">{{ employee.postalAddress.state }}</td>
+    </tr>
+    <tr>
+      <td class="row-heading">Postcode:</td>
+      <td class="value">{{ employee.residentialAddress.postcode }}</td>
+      <td class="row-heading">Postcode:</td>
+      <td class="value">{{ employee.postalAddress.postcode.toString() }}</td>
+    </tr>
+  </table>
+</div>

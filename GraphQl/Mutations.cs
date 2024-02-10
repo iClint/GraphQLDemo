@@ -16,7 +16,7 @@ public class Mutation
         _databaseService = databaseService;
     }
 
-    public async Task<Employee> CreateEmployee(string taxFileNumber, string firstName, string lastName, DateTime dateOfBirth,
+    public async Task<Employee> CreateEmployee(string taxFileNumber, string firstName, string lastName, Gender gender, DateTime dateOfBirth,
         DateTime hireDate)
     {
         if (string.IsNullOrEmpty(taxFileNumber) || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
@@ -26,7 +26,7 @@ public class Mutation
 
         var employeeNumberGenerator = new EmployeeNumberGenerator(_databaseService);
         var employeeNumber = employeeNumberGenerator.GenerateEmployeeNumber(hireDate, taxFileNumber);
-        var newEmployee = new Employee(employeeNumber, taxFileNumber, firstName, lastName, dateOfBirth, hireDate);
+        var newEmployee = new Employee(employeeNumber, taxFileNumber, firstName, lastName, gender, dateOfBirth, hireDate);
 
         try
         {
@@ -56,71 +56,48 @@ public class Mutation
         var updateBuilder = Builders<Employee>.Update;
 
         var updateDefinitions = new List<UpdateDefinition<Employee>>();
-
-        if (update.Department != null)
-        {
+        
+        if(update.Gender !=null) 
+            updateDefinitions.Add(updateBuilder.Set(e => e.Gender, update.Gender));
+        
+        if(update.Department !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.Department, update.Department));
-        }
 
-        if (update.Position != null)
-        {
+        if(update.Position !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.Position, update.Position));
-        }
 
-        if (update.Salary != null)
-        {
+        if(update.Salary !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.Salary, update.Salary));
-        }
 
-        if (update.SickLeaveHours != null)
-        {
+        if(update.SickLeaveHours !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.SickLeaveHours, update.SickLeaveHours));
-        }
 
-        if (update.AnnualLeaveHours != null)
-        {
+        if(update.AnnualLeaveHours !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.AnnualLeaveHours, update.AnnualLeaveHours));
-        }
 
-        if (update.UsedSickLeaveHours != null)
-        {
+        if(update.UsedSickLeaveHours !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.UsedSickLeaveHours, update.UsedSickLeaveHours));
-        }
 
-        if (update.UsedAnnualLeaveHours != null)
-        {
+        if(update.UsedAnnualLeaveHours !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.UsedAnnualLeaveHours, update.UsedAnnualLeaveHours));
-        }
 
-        if (update.ResidentialAddresses != null)
-        {
-            updateDefinitions.Add(updateBuilder.Set(e => e.ResidentialAddresses, update.ResidentialAddresses));
-        }
+        if(update.ResidentialAddress !=null) 
+            updateDefinitions.Add(updateBuilder.Set(e => e.ResidentialAddress, update.ResidentialAddress));
 
-        if (update.PostalAddresses != null)
-        {
-            updateDefinitions.Add(updateBuilder.Set(e => e.PostalAddresses, update.PostalAddresses));
-        }
+        if(update.PostalAddress !=null) 
+            updateDefinitions.Add(updateBuilder.Set(e => e.PostalAddress, update.PostalAddress));
 
-        if (update.PhoneNumbers != null)
-        {
-            updateDefinitions.Add(updateBuilder.Set(e => e.PhoneNumbers, update.PhoneNumbers));
-        }
+        if(update.Phone !=null) 
+            updateDefinitions.Add(updateBuilder.Set(e => e.Phone, update.Phone));
 
-        if (update.Emails != null)
-        {
-            updateDefinitions.Add(updateBuilder.Set(e => e.Emails, update.Emails));
-        }
+        if(update.Email !=null) 
+            updateDefinitions.Add(updateBuilder.Set(e => e.Email, update.Email));
 
-        if (update.IsActive != null)
-        {
+        if(update.IsActive !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.IsActive, update.IsActive));
-        }
 
-        if (update.Skills != null)
-        {
+        if(update.Skills !=null) 
             updateDefinitions.Add(updateBuilder.Set(e => e.Skills, update.Skills));
-        }
 
         var combinedUpdateDefinition = updateBuilder.Combine(updateDefinitions);
 

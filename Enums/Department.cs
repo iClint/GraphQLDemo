@@ -1,7 +1,8 @@
 namespace GraphQlDemo.Enums;
 
     public enum Department
-    {    
+    {   
+        Null,
         IT,
         HR,
         Finance,
@@ -10,4 +11,5 @@ namespace GraphQlDemo.Enums;
         Operations,
         Warehouse,
         Security
+        
     }

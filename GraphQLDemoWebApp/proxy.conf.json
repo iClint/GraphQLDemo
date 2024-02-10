@@ -1,0 +1,6 @@
+{
+  "/graphql/*": {
+    "target": "https://localhost:7023/graphql",
+    "secure": false
+  }
+}

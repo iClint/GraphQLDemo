@@ -17,7 +17,8 @@ namespace GraphQlDemo.EmployeeHelpers
         {
             var hireDateString = hireDate.ToString("yyyyMMdd");
             var last3TaxFileNumberDigits = taxFileNumber[^3..];
-            var employeeNumber = $"{hireDateString}-{last3TaxFileNumberDigits}-{NextEmployeeIndex()}";
+            var indexNumber =  NextEmployeeIndex().Result;
+            var employeeNumber = $"{hireDateString}-{last3TaxFileNumberDigits}-{indexNumber}";
             return employeeNumber;
         }
 

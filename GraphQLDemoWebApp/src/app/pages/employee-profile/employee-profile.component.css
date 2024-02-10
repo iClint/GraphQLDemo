@@ -1,0 +1,29 @@
+.back-link{
+    text-decoration: none;
+    color:blue
+}
+
+.back-link:hover{
+    color: blueviolet;
+}
+
+.block-heading {
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 500;
+}
+
+.row-heading {
+  display: flex;
+  padding: 3px;
+  justify-content: flex-end;
+  align-items: center;
+  font-weight: 500;
+}
+
+.value {
+  padding-left:6px;
+  border: 1px solid grey;
+  min-width: 250px;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.5);
+}

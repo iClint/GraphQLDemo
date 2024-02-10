@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0-p.29" />
+      <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
       <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
     </ItemGroup>
 
