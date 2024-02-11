@@ -1,10 +1,30 @@
-<a class="back-link" href="/employee">Back</a>
-<h1>Employee Profile</h1>
+<h2>
+  <a class="back-link" href="/employee"
+    ><mat-icon
+      aria-hidden="false"
+      aria-label="back to employees"
+      fontIcon="arrow_back"
+    ></mat-icon
+  ></a>
+  Employee Profile
+</h2>
+
 <div *ngIf="employee">
   <table>
     <tr>
       <td class="row-heading">ID:</td>
       <td class="value">{{ employee.employeeNumber }}</td>
+      <a
+        matTooltip="Edit and update employee profile"
+        matTooltipPosition="right"
+        href=""
+      >
+        <mat-icon
+          aria-hidden="false"
+          aria-label="edit profile"
+          fontIcon="edit"
+        ></mat-icon
+      ></a>
     </tr>
     <tr>
       <td class="row-heading">First Name:</td>
@@ -16,48 +36,44 @@
     </tr>
     <tr>
       <td class="row-heading">DOB:</td>
-      <td class="value">{{ employee.dateOfBirth }}</td>
-      <td class="row-heading">Age:</td>
-      <td class="value">{{ employee.age }}</td>
+      <td class="value">{{ employee.dateOfBirth | date : "dd/MM/yyyy" }}</td>
     </tr>
+    <td class="row-heading">Age:</td>
+    <td class="value">{{ employee.age }}</td>
     <tr>
       <td class="row-heading">Gender:</td>
       <td class="value">{{ employee.gender }}</td>
     </tr>
-    <tr>
-      <td class="block-heading">Residential Address</td>
-      <td></td>
-      <td class="block-heading">Residential Address</td>
+    <tr *ngIf="employee.residentialAddress.city || employee.postalAddress.city">
+      <td class="row-heading space-above-16">Address</td>
     </tr>
-    <tr>
-      <td class="row-heading">Line 1:</td>
-      <td class="value">{{ employee.residentialAddress.line1 }}</td>
-      <td class="row-heading">Line 1:</td>
-      <td class="value">{{ employee.postalAddress.line1 }}</td>
+    <tr *ngIf="employee.residentialAddress.city">
+      <td class="row-heading">Residential:</td>
+      <td class="value" *ngIf="employee.residentialAddress.city">
+        {{ employee.residentialAddress.line1 }}
+        {{ employee.residentialAddress.line2 }},<br />{{
+          employee.residentialAddress.city
+        }}
+        {{ employee.residentialAddress.state }}
+        {{ employee.residentialAddress.postcode }}
+      </td>
     </tr>
-    <tr>
-      <td class="row-heading">Line 2:</td>
-      <td class="value">{{ employee.residentialAddress.line2 }}</td>
-      <td class="row-heading">Line 2:</td>
-      <td class="value">{{ employee.postalAddress.line2 }}</td>
+    <tr *ngIf="employee.residentialAddress.city">
+      <td class="row-heading" *ngIf="employee.postalAddress.city">Postal:</td>
+      <td class="value" *ngIf="employee.postalAddress.city">
+        {{ employee.postalAddress }}
+        {{ employee.postalAddress.line2 }},<br />
+        {{ employee.postalAddress.city }} {{ employee.postalAddress.state }}
+        {{ employee.postalAddress.postcode }}
+      </td>
     </tr>
+  </table>
+  <table class="space-above-16" *ngIf="employee.skills.length >= 1">
     <tr>
-      <td class="row-heading">City:</td>
-      <td class="value">{{ employee.residentialAddress.city }}</td>
-      <td class="row-heading">City:</td>
-      <td class="value">{{ employee.postalAddress.city }}</td>
-    </tr>
-    <tr>
-      <td class="row-heading">State:</td>
-      <td class="value">{{ employee.residentialAddress.state }}</td>
-      <td class="row-heading">State:</td>
-      <td class="value">{{ employee.postalAddress.state }}</td>
-    </tr>
-    <tr>
-      <td class="row-heading">Postcode:</td>
-      <td class="value">{{ employee.residentialAddress.postcode }}</td>
-      <td class="row-heading">Postcode:</td>
-      <td class="value">{{ employee.postalAddress.postcode.toString() }}</td>
+      <td class="row-heading">Skills:</td>
+      <td class="value space-above-16">
+        <div *ngFor="let skill of employee.skills">{{ skill }}</div>
+      </td>
     </tr>
   </table>
 </div>

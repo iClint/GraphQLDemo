@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo, gql } from 'apollo-angular';
 import { Employee } from 'src/app/models/employee';
@@ -12,14 +12,6 @@ import { Employee } from 'src/app/models/employee';
 export class EmployeeProfileComponent implements OnInit {
   public employee?: Employee;
   public employeeNumber: string | null = null;
-
-  public fieldMappings: { key: keyof Employee; label: string }[] = [
-    { key: 'employeeNumber', label: 'ID:' },
-    { key: 'firstName', label: 'First Name:' },
-    { key: 'lastName', label: 'Last Name:' },
-    { key: 'gender', label: 'Gender:' },
-    { key: 'dateOfBirth', label: 'DOB:' },
-  ];
 
   constructor(private apollo: Apollo, private route: ActivatedRoute) {}
 
@@ -56,6 +48,7 @@ export class EmployeeProfileComponent implements OnInit {
             state
             postcode
            }
+           skills
          }
        }
         `,

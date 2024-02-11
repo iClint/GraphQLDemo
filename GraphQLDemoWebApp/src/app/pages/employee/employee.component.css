@@ -1,12 +1,16 @@
-ul{
-    list-style: none;
+ul {
+  list-style: none;
 }
 
-li{
-cursor: pointer;
+li {
+  cursor: pointer;
 }
 
-li:hover{
-background: rgba(64, 64, 245, 0.5);
-color: white;
+li:hover {
+  background: rgba(64, 64, 245, 0.5);
+  color: white;
+}
+
+.employee-list {
+  width: 250px;
 }
