@@ -1,6 +1,7 @@
 using GraphQlDemo.EmployeeHelpers;
 using GraphQlDemo.Enums;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GraphQlDemo.Models;
 
@@ -12,11 +13,20 @@ public class Employee
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public Gender Gender { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    
+    public string DateOfBirthFormatted => DateOfBirth.ToString("dd/MM/yyyy");
+
+    [BsonElement("DateOfBirth")]
+    private DateTime DateOfBirth { get; set; }
+
     public Department Department { get; set; }
     public Position Position { get; set; }
     public double Salary { get; set; }
-    public DateTime HireDate { get; set; }
+    
+    public string HireDateFormatted => HireDate.ToString("dd/MM/yyyy");
+    
+    [BsonElement("HireDate")]
+    private DateTime HireDate { get; set; }
     public double SickLeaveHours { get; set; }
     public double AnnualLeaveHours { get; set; }
     public double UsedSickLeaveHours { get; set; }
@@ -86,5 +96,10 @@ public class Employee
         Gender = gender;
         DateOfBirth = dateOfBirth;
         HireDate = hireDate;
+    }
+    
+    private string GetFormattedDate(DateTime date)
+    {
+        return date.ToString("dd/MM/yyyy");
     }
 }
